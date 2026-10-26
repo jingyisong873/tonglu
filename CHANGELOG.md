@@ -12,5 +12,6 @@ Initial standalone source distribution.
 
 - Reject truncated research streams, preserve split UTF-8 messages and propagate cancellation to background data requests.
 
-See [verification](docs/verification.md) for the checks completed before publication.
 - Updated Zod to 4.6.7 and Vite to 8.3.5 to address dependency advisories.
+
+See [verification](docs/verification.md) for the checks completed before publication.

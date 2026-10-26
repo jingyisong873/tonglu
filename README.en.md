@@ -1,5 +1,7 @@
 # Tonglu
 
+[![Verify](https://github.com/jingyisong873/tonglu/actions/workflows/ci.yml/badge.svg)](https://github.com/jingyisong873/tonglu/actions/workflows/ci.yml)
+
 A local workspace for comparing markets, channels and transaction proposals. Keep source evidence, business assumptions and reproducible calculations together, then examine which conditions change the decision.
 
 [中文](README.md) · [Examples](examples/) · [Architecture](docs/architecture.md) · [Configuration](docs/configuration.md) · [Security](SECURITY.md)

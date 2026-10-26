@@ -1,5 +1,7 @@
 # 通路 Tonglu
 
+[![Verify](https://github.com/jingyisong873/tonglu/actions/workflows/ci.yml/badge.svg)](https://github.com/jingyisong873/tonglu/actions/workflows/ci.yml)
+
 比较市场、渠道和交易方案的本地研究工作台。将来源证据、业务假设和计算结果放在同一个项目里，查看哪些条件会改变选择。
 
 [English](README.en.md) · [运行示例](docs/demo.md) · [计算方法](docs/market-methodology.md) · [架构](docs/architecture.md) · [安全](SECURITY.md)
