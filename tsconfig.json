@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "target": "ES2023",
+    "lib": ["ES2023", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "jsx": "react-jsx",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "strict": true,
+    "noEmit": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "types": ["node"],
+    "paths": { "@/*": ["./*"] }
+  },
+  "include": [
+    "main.tsx",
+    "app/**/*.tsx",
+    "lib/**/*.ts",
+    "scripts/**/*.ts",
+    "vite.config.ts",
+    "tests/market/**/*.ts"
+  ]
+}

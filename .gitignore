@@ -1,0 +1,14 @@
+node_modules/
+dist/
+.tonglu/
+.env
+.env.*
+!.env.example
+*.log
+*.tsbuildinfo
+.DS_Store
+*.sqlite*
+*.db
+coverage/
+*.pem
+*.key

@@ -1,0 +1,248 @@
+{
+  "kind": "synthetic-business-assumptions",
+  "input": {
+    "name": "双语内容服务 · 两位客户的项目比较",
+    "offering": "为独立创作者提供一份双语内容包，包含需求梳理、内容编写与两轮修改。一次只能接一个项目，比较两位客户的拟议报价、工作量与验收条件。所有客户及数字均为演示假设。",
+    "kind": "service",
+    "unit": "项目",
+    "origin": {
+      "code": "HANGZHOU",
+      "name": "杭州",
+      "countryCode": "CHN",
+      "scope": "region"
+    },
+    "targets": [
+      {
+        "code": "CLIENT_A",
+        "name": "杭州 · 客户 A",
+        "countryCode": "CHN",
+        "scope": "segment",
+        "buyer": {
+          "kind": "individual",
+          "name": "独立创作者 A（示例）"
+        },
+        "channel": "需求访谈与项目报价",
+        "delivery": "一份双语内容包及两轮修改，验收范围待确认",
+        "settlement": "拟议预付款与验收尾款，尚未商定"
+      },
+      {
+        "code": "CLIENT_B",
+        "name": "上海 · 客户 B",
+        "countryCode": "CHN",
+        "scope": "segment",
+        "buyer": {
+          "kind": "individual",
+          "name": "独立创作者 B（示例）"
+        },
+        "channel": "需求访谈与项目报价",
+        "delivery": "一份双语内容包及两轮修改，验收范围待确认",
+        "settlement": "拟议预付款与验收尾款，尚未商定"
+      }
+    ],
+    "customer": "有双语内容需求的独立创作者，真实需求与预算尚未核实",
+    "horizonMonths": 3,
+    "budgetUSD": 1000,
+    "hsCode": "",
+    "useWeb": true,
+    "sources": [],
+    "models": [
+      {
+        "marketCode": "CLIENT_A",
+        "dealUnits": 1,
+        "price": 5000,
+        "variableCost": 2400,
+        "crossBorderCost": 0,
+        "sellingCost": 200,
+        "channelFeePct": 0,
+        "importChargePct": 0,
+        "importChargeBase": 0,
+        "annualUnits": 0,
+        "annualGrowthPct": 0,
+        "entryCost": 300,
+        "monthlyFixedCost": 100,
+        "launchMonths": 0,
+        "rampMonths": 1,
+        "volumeLow": 0.5,
+        "volumeHigh": 1.5,
+        "fxLow": 0.9,
+        "fxHigh": 1.1,
+        "costHigh": 1.2,
+        "note": "全部为演示假设，金额为人民币，未访谈真实客户或核实报价。",
+        "access": "unknown",
+        "accessNote": "同国内交易；产品或服务规则、合同范围、验收与付款条件仍需核实",
+        "salesHistory": []
+      },
+      {
+        "marketCode": "CLIENT_B",
+        "dealUnits": 1,
+        "price": 6500,
+        "variableCost": 3600,
+        "crossBorderCost": 0,
+        "sellingCost": 200,
+        "channelFeePct": 0,
+        "importChargePct": 0,
+        "importChargeBase": 0,
+        "annualUnits": 0,
+        "annualGrowthPct": 0,
+        "entryCost": 300,
+        "monthlyFixedCost": 100,
+        "launchMonths": 0,
+        "rampMonths": 1,
+        "volumeLow": 0.5,
+        "volumeHigh": 1.5,
+        "fxLow": 0.9,
+        "fxHigh": 1.1,
+        "costHigh": 1.2,
+        "note": "全部为演示假设，金额为人民币，未访谈真实客户或核实报价。",
+        "access": "unknown",
+        "accessNote": "同国内交易；产品或服务规则、合同范围、验收与付款条件仍需核实",
+        "salesHistory": []
+      }
+    ],
+    "context": "演示案例，地域、参与者和交易条件分别建模。不能把全国宏观数据解释为省份或个人需求，也不能把互斥路径相加。",
+    "currency": "CNY",
+    "decisionMode": "single-deal",
+    "portfolioMode": "exclusive",
+    "supplier": {
+      "kind": "individual",
+      "name": "杭州自由职业者（示例）"
+    },
+    "successCriterion": "在约定范围内完成交付；贡献覆盖准备成本且工作量可承受。先确认需求、修改次数及付款条件。"
+  },
+  "markets": [
+    {
+      "marketCode": "CLIENT_A",
+      "months": [
+        {
+          "month": 1,
+          "units": 1,
+          "revenue": 5000,
+          "contribution": 2300,
+          "cumulative": 2000
+        },
+        {
+          "month": 2,
+          "units": 0,
+          "revenue": 0,
+          "contribution": -100,
+          "cumulative": 1900
+        },
+        {
+          "month": 3,
+          "units": 0,
+          "revenue": 0,
+          "contribution": -100,
+          "cumulative": 1800
+        }
+      ],
+      "units": 1,
+      "revenue": 5000,
+      "contribution": 1800,
+      "unitContribution": 2400,
+      "breakEvenUnits": 0.25,
+      "breakEvenAnnualUnits": 0.25,
+      "paybackMonth": 1,
+      "fixedCost": 600,
+      "entryCost": 300,
+      "status": "positive",
+      "scenario": {
+        "low": -600,
+        "base": 1800,
+        "high": 2300,
+        "profitable": 18,
+        "total": 27
+      },
+      "sensitivity": [
+        {
+          "name": "交付延迟 3 个月",
+          "low": -600,
+          "high": 1800,
+          "spread": 2400
+        },
+        {
+          "name": "实际售价 / 折算",
+          "low": 1300,
+          "high": 2300,
+          "spread": 1000
+        },
+        {
+          "name": "供给与交付成本",
+          "low": 1320,
+          "high": 1800,
+          "spread": 480
+        }
+      ]
+    },
+    {
+      "marketCode": "CLIENT_B",
+      "months": [
+        {
+          "month": 1,
+          "units": 1,
+          "revenue": 6500,
+          "contribution": 2600,
+          "cumulative": 2300
+        },
+        {
+          "month": 2,
+          "units": 0,
+          "revenue": 0,
+          "contribution": -100,
+          "cumulative": 2200
+        },
+        {
+          "month": 3,
+          "units": 0,
+          "revenue": 0,
+          "contribution": -100,
+          "cumulative": 2100
+        }
+      ],
+      "units": 1,
+      "revenue": 6500,
+      "contribution": 2100,
+      "unitContribution": 2700,
+      "breakEvenUnits": 0.2222222222222222,
+      "breakEvenAnnualUnits": 0.2222222222222222,
+      "paybackMonth": 1,
+      "fixedCost": 600,
+      "entryCost": 300,
+      "status": "positive",
+      "scenario": {
+        "low": -600,
+        "base": 2100,
+        "high": 2750.000000000001,
+        "profitable": 18,
+        "total": 27
+      },
+      "sensitivity": [
+        {
+          "name": "交付延迟 3 个月",
+          "low": -600,
+          "high": 2100,
+          "spread": 2700
+        },
+        {
+          "name": "实际售价 / 折算",
+          "low": 1450,
+          "high": 2750.000000000001,
+          "spread": 1300.000000000001
+        },
+        {
+          "name": "供给与交付成本",
+          "low": 1380,
+          "high": 2100,
+          "spread": 720
+        }
+      ]
+    }
+  ],
+  "portfolio": {
+    "markets": [
+      "CLIENT_B"
+    ],
+    "entryCost": 300,
+    "contribution": 2100,
+    "worstCase": -600
+  }
+}

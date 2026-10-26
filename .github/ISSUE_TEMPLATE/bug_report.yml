@@ -1,0 +1,17 @@
+name: Reproducible problem
+description: Report a calculation, source, or workflow problem
+body:
+  - type: textarea
+    attributes:
+      label: Task and expected result
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Minimal synthetic input and actual result
+      description: Remove API keys, personal details and company documents
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: Node version and replay or live mode

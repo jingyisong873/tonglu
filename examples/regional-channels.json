@@ -1,0 +1,386 @@
+{
+  "kind": "synthetic-business-assumptions",
+  "input": {
+    "name": "教学机器人 · 江西到浙江",
+    "offering": "用于高校机器人课程的桌面教学机械臂，含课程资料、部署指导与售后支持。比较直接销售与经销渠道。这是虚构演示方案，尚无真实客户和成交。",
+    "kind": "goods",
+    "unit": "台",
+    "origin": {
+      "code": "JIANGXI",
+      "name": "江西",
+      "countryCode": "CHN",
+      "scope": "region"
+    },
+    "targets": [
+      {
+        "code": "ZHEJIANG_DIRECT",
+        "name": "浙江 · 直接销售",
+        "countryCode": "CHN",
+        "scope": "region",
+        "buyer": {
+          "kind": "segment",
+          "name": "浙江高校实验室"
+        },
+        "channel": "联系课程负责人，验证教学方案",
+        "delivery": "设备交付、安装指导与验收",
+        "settlement": "拟议分阶段付款，条款待确认"
+      },
+      {
+        "code": "ZHEJIANG_CHANNEL",
+        "name": "浙江 · 经销渠道",
+        "countryCode": "CHN",
+        "scope": "region",
+        "buyer": {
+          "kind": "company",
+          "name": "教育设备经销商（待确定）"
+        },
+        "channel": "经销商试用与报价",
+        "delivery": "批次交付，明确培训和售后责任",
+        "settlement": "账期和信用额度待确认"
+      }
+    ],
+    "customer": "浙江高校课程负责人及教育设备经销商",
+    "horizonMonths": 12,
+    "budgetUSD": 20000,
+    "hsCode": "",
+    "useWeb": true,
+    "sources": [],
+    "models": [
+      {
+        "marketCode": "ZHEJIANG_DIRECT",
+        "dealUnits": 1,
+        "price": 4999,
+        "variableCost": 2300,
+        "crossBorderCost": 150,
+        "sellingCost": 200,
+        "channelFeePct": 0,
+        "importChargePct": 0,
+        "importChargeBase": 0,
+        "annualUnits": 60,
+        "annualGrowthPct": 0,
+        "entryCost": 8000,
+        "monthlyFixedCost": 600,
+        "launchMonths": 1,
+        "rampMonths": 3,
+        "volumeLow": 0.5,
+        "volumeHigh": 1.5,
+        "fxLow": 0.9,
+        "fxHigh": 1.1,
+        "costHigh": 1.2,
+        "note": "全部为演示假设，金额为人民币，未访谈真实客户或核实报价。",
+        "access": "unknown",
+        "accessNote": "同国内交易；产品或服务规则、合同范围、验收与付款条件仍需核实",
+        "salesHistory": []
+      },
+      {
+        "marketCode": "ZHEJIANG_CHANNEL",
+        "dealUnits": 1,
+        "price": 3999,
+        "variableCost": 2300,
+        "crossBorderCost": 150,
+        "sellingCost": 200,
+        "channelFeePct": 15,
+        "importChargePct": 0,
+        "importChargeBase": 0,
+        "annualUnits": 100,
+        "annualGrowthPct": 0,
+        "entryCost": 12000,
+        "monthlyFixedCost": 600,
+        "launchMonths": 1,
+        "rampMonths": 3,
+        "volumeLow": 0.5,
+        "volumeHigh": 1.5,
+        "fxLow": 0.9,
+        "fxHigh": 1.1,
+        "costHigh": 1.2,
+        "note": "全部为演示假设，金额为人民币，未访谈真实客户或核实报价。",
+        "access": "unknown",
+        "accessNote": "同国内交易；产品或服务规则、合同范围、验收与付款条件仍需核实",
+        "salesHistory": []
+      }
+    ],
+    "context": "演示案例，地域、参与者和交易条件分别建模。不能把全国宏观数据解释为省份或个人需求，也不能把互斥路径相加。",
+    "currency": "CNY",
+    "decisionMode": "market-entry",
+    "portfolioMode": "exclusive",
+    "supplier": {
+      "kind": "company",
+      "name": "江西设备团队（示例）"
+    },
+    "successCriterion": "先用两次教学试用验证课程适配，并取得实际采购与服务成本信息；这是拟定验证目标。"
+  },
+  "markets": [
+    {
+      "marketCode": "ZHEJIANG_DIRECT",
+      "months": [
+        {
+          "month": 1,
+          "units": 0,
+          "revenue": 0,
+          "contribution": -600,
+          "cumulative": -8600
+        },
+        {
+          "month": 2,
+          "units": 1.6666666666666665,
+          "revenue": 8331.666666666666,
+          "contribution": 3314.9999999999995,
+          "cumulative": -5285
+        },
+        {
+          "month": 3,
+          "units": 3.333333333333333,
+          "revenue": 16663.333333333332,
+          "contribution": 7229.999999999999,
+          "cumulative": 1944.999999999999
+        },
+        {
+          "month": 4,
+          "units": 5,
+          "revenue": 24995,
+          "contribution": 11145,
+          "cumulative": 13090
+        },
+        {
+          "month": 5,
+          "units": 5,
+          "revenue": 24995,
+          "contribution": 11145,
+          "cumulative": 24235
+        },
+        {
+          "month": 6,
+          "units": 5,
+          "revenue": 24995,
+          "contribution": 11145,
+          "cumulative": 35380
+        },
+        {
+          "month": 7,
+          "units": 5,
+          "revenue": 24995,
+          "contribution": 11145,
+          "cumulative": 46525
+        },
+        {
+          "month": 8,
+          "units": 5,
+          "revenue": 24995,
+          "contribution": 11145,
+          "cumulative": 57670
+        },
+        {
+          "month": 9,
+          "units": 5,
+          "revenue": 24995,
+          "contribution": 11145,
+          "cumulative": 68815
+        },
+        {
+          "month": 10,
+          "units": 5,
+          "revenue": 24995,
+          "contribution": 11145,
+          "cumulative": 79960
+        },
+        {
+          "month": 11,
+          "units": 5,
+          "revenue": 24995,
+          "contribution": 11145,
+          "cumulative": 91105
+        },
+        {
+          "month": 12,
+          "units": 5,
+          "revenue": 24995,
+          "contribution": 11145,
+          "cumulative": 102250
+        }
+      ],
+      "units": 50,
+      "revenue": 249950,
+      "contribution": 102250,
+      "unitContribution": 2349,
+      "breakEvenUnits": 6.470838654746701,
+      "breakEvenAnnualUnits": 7.765006385696041,
+      "paybackMonth": 3,
+      "fixedCost": 15200,
+      "entryCost": 8000,
+      "status": "positive",
+      "scenario": {
+        "low": 18777.500000000007,
+        "base": 102250,
+        "high": 198467.50000000003,
+        "profitable": 27,
+        "total": 27
+      },
+      "sensitivity": [
+        {
+          "name": "销量",
+          "low": 43525,
+          "high": 160975,
+          "spread": 117450
+        },
+        {
+          "name": "实际售价 / 折算",
+          "low": 77255.00000000001,
+          "high": 127245.00000000001,
+          "spread": 49990
+        },
+        {
+          "name": "进入延迟 3 个月",
+          "low": 67015,
+          "high": 102250,
+          "spread": 35235
+        },
+        {
+          "name": "供给与交付成本",
+          "low": 77750,
+          "high": 102250,
+          "spread": 24500
+        }
+      ]
+    },
+    {
+      "marketCode": "ZHEJIANG_CHANNEL",
+      "months": [
+        {
+          "month": 1,
+          "units": 0,
+          "revenue": 0,
+          "contribution": -600,
+          "cumulative": -12600
+        },
+        {
+          "month": 2,
+          "units": 2.7777777777777777,
+          "revenue": 11108.333333333332,
+          "contribution": 1480.9722222222226,
+          "cumulative": -11119.027777777777
+        },
+        {
+          "month": 3,
+          "units": 5.555555555555555,
+          "revenue": 22216.666666666664,
+          "contribution": 3561.9444444444453,
+          "cumulative": -7557.083333333332
+        },
+        {
+          "month": 4,
+          "units": 8.333333333333334,
+          "revenue": 33325,
+          "contribution": 5642.916666666668,
+          "cumulative": -1914.1666666666642
+        },
+        {
+          "month": 5,
+          "units": 8.333333333333334,
+          "revenue": 33325,
+          "contribution": 5642.916666666668,
+          "cumulative": 3728.7500000000036
+        },
+        {
+          "month": 6,
+          "units": 8.333333333333334,
+          "revenue": 33325,
+          "contribution": 5642.916666666668,
+          "cumulative": 9371.666666666672
+        },
+        {
+          "month": 7,
+          "units": 8.333333333333334,
+          "revenue": 33325,
+          "contribution": 5642.916666666668,
+          "cumulative": 15014.58333333334
+        },
+        {
+          "month": 8,
+          "units": 8.333333333333334,
+          "revenue": 33325,
+          "contribution": 5642.916666666668,
+          "cumulative": 20657.500000000007
+        },
+        {
+          "month": 9,
+          "units": 8.333333333333334,
+          "revenue": 33325,
+          "contribution": 5642.916666666668,
+          "cumulative": 26300.416666666675
+        },
+        {
+          "month": 10,
+          "units": 8.333333333333334,
+          "revenue": 33325,
+          "contribution": 5642.916666666668,
+          "cumulative": 31943.333333333343
+        },
+        {
+          "month": 11,
+          "units": 8.333333333333334,
+          "revenue": 33325,
+          "contribution": 5642.916666666668,
+          "cumulative": 37586.250000000015
+        },
+        {
+          "month": 12,
+          "units": 8.333333333333334,
+          "revenue": 33325,
+          "contribution": 5642.916666666668,
+          "cumulative": 43229.166666666686
+        }
+      ],
+      "units": 83.33333333333333,
+      "revenue": 333250,
+      "contribution": 43229.166666666686,
+      "unitContribution": 749.1500000000001,
+      "breakEvenUnits": 25.629046252419407,
+      "breakEvenAnnualUnits": 30.754855502903286,
+      "paybackMonth": 5,
+      "fixedCost": 19200,
+      "entryCost": 12000,
+      "status": "positive",
+      "scenario": {
+        "low": -29295.625000000036,
+        "base": 43229.166666666686,
+        "high": 116933.12500000006,
+        "profitable": 20,
+        "total": 27
+      },
+      "sensitivity": [
+        {
+          "name": "销量",
+          "low": 12014.58333333334,
+          "high": 74443.75000000001,
+          "spread": 62429.16666666667
+        },
+        {
+          "name": "实际售价 / 折算",
+          "low": 14902.916666666642,
+          "high": 71555.41666666672,
+          "spread": 56652.50000000007
+        },
+        {
+          "name": "供给与交付成本",
+          "low": 2395.8333333333417,
+          "high": 43229.166666666686,
+          "spread": 40833.33333333334
+        },
+        {
+          "name": "进入延迟 3 个月",
+          "low": 24500.416666666675,
+          "high": 43229.166666666686,
+          "spread": 18728.75000000001
+        }
+      ]
+    }
+  ],
+  "portfolio": {
+    "markets": [
+      "ZHEJIANG_DIRECT"
+    ],
+    "entryCost": 8000,
+    "contribution": 102250,
+    "worstCase": 18777.500000000007
+  }
+}

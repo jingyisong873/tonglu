@@ -1,0 +1,42 @@
+{
+  "name": "tonglu",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Evidence-linked market research and reproducible scenario comparisons",
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "license": "MIT",
+  "scripts": {
+    "dev": "node --env-file-if-exists=.env scripts/dev.mjs",
+    "build": "vite build",
+    "start": "node --env-file-if-exists=.env server/server.mjs",
+    "test": "node --test tests/market/*.test.ts tests/runtime/*.test.mjs",
+    "test:core": "node --test tests/market/market.test.ts",
+    "typecheck": "tsc --noEmit",
+    "example": "node scripts/example.ts"
+  },
+  "dependencies": {
+    "lucide-react": "1.31.0",
+    "react": "19.2.6",
+    "react-dom": "19.2.6",
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "24.10.1",
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.2.3",
+    "@vitejs/plugin-react": "6.0.2",
+    "typescript": "5.9.3",
+    "vite": "8.3.5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jingyisong873/tonglu.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jingyisong873/tonglu/issues"
+  },
+  "homepage": "https://github.com/jingyisong873/tonglu#readme"
+}

@@ -1,0 +1,773 @@
+{
+  "kind": "synthetic-business-assumptions",
+  "input": {
+    "name": "桌面机器人 · 三市场试算",
+    "offering": "面向高校教学与机器人开发者的桌面机械臂开发套件，计划提供英文开发文档、教学案例与远程技术支持。这是用于验证市场进入方法的示例产品，规格、需求与商业结果尚未验证。",
+    "kind": "goods",
+    "unit": "台",
+    "origin": {
+      "code": "CHN",
+      "name": "中国"
+    },
+    "targets": [
+      {
+        "code": "SGP",
+        "name": "新加坡"
+      },
+      {
+        "code": "DEU",
+        "name": "德国"
+      },
+      {
+        "code": "USA",
+        "name": "美国"
+      }
+    ],
+    "customer": "高校工程学院教学实验室、机器人课程负责人、小型教育设备经销商",
+    "horizonMonths": 24,
+    "budgetUSD": 25000,
+    "hsCode": "",
+    "useWeb": true,
+    "sources": [],
+    "models": [
+      {
+        "marketCode": "SGP",
+        "dealUnits": 1,
+        "price": 599,
+        "variableCost": 230,
+        "crossBorderCost": 45,
+        "sellingCost": 20,
+        "channelFeePct": 15,
+        "importChargePct": 0,
+        "importChargeBase": 275,
+        "annualUnits": 160,
+        "annualGrowthPct": 0,
+        "entryCost": 6000,
+        "monthlyFixedCost": 1200,
+        "launchMonths": 1,
+        "rampMonths": 4,
+        "volumeLow": 0.5,
+        "volumeHigh": 1.5,
+        "fxLow": 0.9,
+        "fxHigh": 1.1,
+        "costHigh": 1.2,
+        "note": "示例商业假设，用于演示计算；尚无真实销量、报价或需求验证。进口相关费用未填，0 不代表免税。",
+        "access": "unknown",
+        "accessNote": "尚未针对产品、原产地和目的国确认进入条件",
+        "salesHistory": []
+      },
+      {
+        "marketCode": "DEU",
+        "dealUnits": 1,
+        "price": 599,
+        "variableCost": 230,
+        "crossBorderCost": 45,
+        "sellingCost": 20,
+        "channelFeePct": 15,
+        "importChargePct": 0,
+        "importChargeBase": 275,
+        "annualUnits": 260,
+        "annualGrowthPct": 0,
+        "entryCost": 12000,
+        "monthlyFixedCost": 1200,
+        "launchMonths": 3,
+        "rampMonths": 4,
+        "volumeLow": 0.5,
+        "volumeHigh": 1.5,
+        "fxLow": 0.9,
+        "fxHigh": 1.1,
+        "costHigh": 1.2,
+        "note": "示例商业假设，用于演示计算；尚无真实销量、报价或需求验证。进口相关费用未填，0 不代表免税。",
+        "access": "unknown",
+        "accessNote": "尚未针对产品、原产地和目的国确认进入条件",
+        "salesHistory": []
+      },
+      {
+        "marketCode": "USA",
+        "dealUnits": 1,
+        "price": 599,
+        "variableCost": 230,
+        "crossBorderCost": 45,
+        "sellingCost": 20,
+        "channelFeePct": 15,
+        "importChargePct": 0,
+        "importChargeBase": 275,
+        "annualUnits": 300,
+        "annualGrowthPct": 0,
+        "entryCost": 10000,
+        "monthlyFixedCost": 1200,
+        "launchMonths": 2,
+        "rampMonths": 4,
+        "volumeLow": 0.5,
+        "volumeHigh": 1.5,
+        "fxLow": 0.9,
+        "fxHigh": 1.1,
+        "costHigh": 1.2,
+        "note": "示例商业假设，用于演示计算；尚无真实销量、报价或需求验证。进口相关费用未填，0 不代表免税。",
+        "access": "unknown",
+        "accessNote": "尚未针对产品、原产地和目的国确认进入条件",
+        "salesHistory": []
+      }
+    ],
+    "context": "演示项目。请明确区分公开事实、模型推断与示例假设；不要把试算销量解释为已验证需求。优先给出能在两周内开始执行的客户研究与渠道验证。"
+  },
+  "markets": [
+    {
+      "marketCode": "SGP",
+      "months": [
+        {
+          "month": 1,
+          "units": 0,
+          "revenue": 0,
+          "contribution": -1200,
+          "cumulative": -7200
+        },
+        {
+          "month": 2,
+          "units": 3.3333333333333335,
+          "revenue": 1996.6666666666667,
+          "contribution": -486.16666666666674,
+          "cumulative": -7686.166666666667
+        },
+        {
+          "month": 3,
+          "units": 6.666666666666667,
+          "revenue": 3993.3333333333335,
+          "contribution": 227.66666666666652,
+          "cumulative": -7458.5
+        },
+        {
+          "month": 4,
+          "units": 10,
+          "revenue": 5990,
+          "contribution": 941.5,
+          "cumulative": -6517
+        },
+        {
+          "month": 5,
+          "units": 13.333333333333334,
+          "revenue": 7986.666666666667,
+          "contribution": 1655.333333333333,
+          "cumulative": -4861.666666666667
+        },
+        {
+          "month": 6,
+          "units": 13.333333333333334,
+          "revenue": 7986.666666666667,
+          "contribution": 1655.333333333333,
+          "cumulative": -3206.333333333334
+        },
+        {
+          "month": 7,
+          "units": 13.333333333333334,
+          "revenue": 7986.666666666667,
+          "contribution": 1655.333333333333,
+          "cumulative": -1551.000000000001
+        },
+        {
+          "month": 8,
+          "units": 13.333333333333334,
+          "revenue": 7986.666666666667,
+          "contribution": 1655.333333333333,
+          "cumulative": 104.33333333333212
+        },
+        {
+          "month": 9,
+          "units": 13.333333333333334,
+          "revenue": 7986.666666666667,
+          "contribution": 1655.333333333333,
+          "cumulative": 1759.6666666666652
+        },
+        {
+          "month": 10,
+          "units": 13.333333333333334,
+          "revenue": 7986.666666666667,
+          "contribution": 1655.333333333333,
+          "cumulative": 3414.999999999998
+        },
+        {
+          "month": 11,
+          "units": 13.333333333333334,
+          "revenue": 7986.666666666667,
+          "contribution": 1655.333333333333,
+          "cumulative": 5070.333333333331
+        },
+        {
+          "month": 12,
+          "units": 13.333333333333334,
+          "revenue": 7986.666666666667,
+          "contribution": 1655.333333333333,
+          "cumulative": 6725.666666666664
+        },
+        {
+          "month": 13,
+          "units": 13.333333333333334,
+          "revenue": 7986.666666666667,
+          "contribution": 1655.333333333333,
+          "cumulative": 8380.999999999996
+        },
+        {
+          "month": 14,
+          "units": 13.333333333333334,
+          "revenue": 7986.666666666667,
+          "contribution": 1655.333333333333,
+          "cumulative": 10036.333333333328
+        },
+        {
+          "month": 15,
+          "units": 13.333333333333334,
+          "revenue": 7986.666666666667,
+          "contribution": 1655.333333333333,
+          "cumulative": 11691.66666666666
+        },
+        {
+          "month": 16,
+          "units": 13.333333333333334,
+          "revenue": 7986.666666666667,
+          "contribution": 1655.333333333333,
+          "cumulative": 13346.999999999993
+        },
+        {
+          "month": 17,
+          "units": 13.333333333333334,
+          "revenue": 7986.666666666667,
+          "contribution": 1655.333333333333,
+          "cumulative": 15002.333333333325
+        },
+        {
+          "month": 18,
+          "units": 13.333333333333334,
+          "revenue": 7986.666666666667,
+          "contribution": 1655.333333333333,
+          "cumulative": 16657.666666666657
+        },
+        {
+          "month": 19,
+          "units": 13.333333333333334,
+          "revenue": 7986.666666666667,
+          "contribution": 1655.333333333333,
+          "cumulative": 18312.99999999999
+        },
+        {
+          "month": 20,
+          "units": 13.333333333333334,
+          "revenue": 7986.666666666667,
+          "contribution": 1655.333333333333,
+          "cumulative": 19968.33333333332
+        },
+        {
+          "month": 21,
+          "units": 13.333333333333334,
+          "revenue": 7986.666666666667,
+          "contribution": 1655.333333333333,
+          "cumulative": 21623.666666666653
+        },
+        {
+          "month": 22,
+          "units": 13.333333333333334,
+          "revenue": 7986.666666666667,
+          "contribution": 1655.333333333333,
+          "cumulative": 23278.999999999985
+        },
+        {
+          "month": 23,
+          "units": 13.333333333333334,
+          "revenue": 7986.666666666667,
+          "contribution": 1655.333333333333,
+          "cumulative": 24934.333333333318
+        },
+        {
+          "month": 24,
+          "units": 13.333333333333334,
+          "revenue": 7986.666666666667,
+          "contribution": 1655.333333333333,
+          "cumulative": 26589.66666666665
+        }
+      ],
+      "units": 286.6666666666667,
+      "revenue": 171713.3333333333,
+      "contribution": 26589.66666666665,
+      "unitContribution": 214.14999999999998,
+      "breakEvenUnits": 162.50291851505955,
+      "breakEvenAnnualUnits": 90.69930335724257,
+      "paybackMonth": 8,
+      "fixedCost": 34800,
+      "entryCost": 6000,
+      "status": "positive",
+      "scenario": {
+        "low": -19286.316666666662,
+        "base": 26589.66666666665,
+        "high": 79177.95000000004,
+        "profitable": 18,
+        "total": 27
+      },
+      "sensitivity": [
+        {
+          "name": "销量",
+          "low": -4105.166666666679,
+          "high": 57284.5,
+          "spread": 61389.66666666668
+        },
+        {
+          "name": "实际售价 / 折算",
+          "low": 11994.033333333344,
+          "high": 41185.3,
+          "spread": 29191.26666666666
+        },
+        {
+          "name": "供给与交付成本",
+          "low": 10823,
+          "high": 26589.66666666665,
+          "spread": 15766.66666666665
+        },
+        {
+          "name": "进入延迟 3 个月",
+          "low": 18023.666666666657,
+          "high": 26589.66666666665,
+          "spread": 8565.999999999993
+        }
+      ]
+    },
+    {
+      "marketCode": "DEU",
+      "months": [
+        {
+          "month": 1,
+          "units": 0,
+          "revenue": 0,
+          "contribution": -1200,
+          "cumulative": -13200
+        },
+        {
+          "month": 2,
+          "units": 0,
+          "revenue": 0,
+          "contribution": -1200,
+          "cumulative": -14400
+        },
+        {
+          "month": 3,
+          "units": 0,
+          "revenue": 0,
+          "contribution": -1200,
+          "cumulative": -15600
+        },
+        {
+          "month": 4,
+          "units": 5.416666666666667,
+          "revenue": 3244.5833333333335,
+          "contribution": -40.020833333333485,
+          "cumulative": -15640.020833333334
+        },
+        {
+          "month": 5,
+          "units": 10.833333333333334,
+          "revenue": 6489.166666666667,
+          "contribution": 1119.958333333333,
+          "cumulative": -14520.0625
+        },
+        {
+          "month": 6,
+          "units": 16.25,
+          "revenue": 9733.75,
+          "contribution": 2279.9374999999995,
+          "cumulative": -12240.125
+        },
+        {
+          "month": 7,
+          "units": 21.666666666666668,
+          "revenue": 12978.333333333334,
+          "contribution": 3439.916666666666,
+          "cumulative": -8800.208333333334
+        },
+        {
+          "month": 8,
+          "units": 21.666666666666668,
+          "revenue": 12978.333333333334,
+          "contribution": 3439.916666666666,
+          "cumulative": -5360.291666666668
+        },
+        {
+          "month": 9,
+          "units": 21.666666666666668,
+          "revenue": 12978.333333333334,
+          "contribution": 3439.916666666666,
+          "cumulative": -1920.3750000000018
+        },
+        {
+          "month": 10,
+          "units": 21.666666666666668,
+          "revenue": 12978.333333333334,
+          "contribution": 3439.916666666666,
+          "cumulative": 1519.5416666666642
+        },
+        {
+          "month": 11,
+          "units": 21.666666666666668,
+          "revenue": 12978.333333333334,
+          "contribution": 3439.916666666666,
+          "cumulative": 4959.45833333333
+        },
+        {
+          "month": 12,
+          "units": 21.666666666666668,
+          "revenue": 12978.333333333334,
+          "contribution": 3439.916666666666,
+          "cumulative": 8399.374999999996
+        },
+        {
+          "month": 13,
+          "units": 21.666666666666668,
+          "revenue": 12978.333333333334,
+          "contribution": 3439.916666666666,
+          "cumulative": 11839.291666666662
+        },
+        {
+          "month": 14,
+          "units": 21.666666666666668,
+          "revenue": 12978.333333333334,
+          "contribution": 3439.916666666666,
+          "cumulative": 15279.208333333328
+        },
+        {
+          "month": 15,
+          "units": 21.666666666666668,
+          "revenue": 12978.333333333334,
+          "contribution": 3439.916666666666,
+          "cumulative": 18719.124999999993
+        },
+        {
+          "month": 16,
+          "units": 21.666666666666668,
+          "revenue": 12978.333333333334,
+          "contribution": 3439.916666666666,
+          "cumulative": 22159.041666666657
+        },
+        {
+          "month": 17,
+          "units": 21.666666666666668,
+          "revenue": 12978.333333333334,
+          "contribution": 3439.916666666666,
+          "cumulative": 25598.95833333332
+        },
+        {
+          "month": 18,
+          "units": 21.666666666666668,
+          "revenue": 12978.333333333334,
+          "contribution": 3439.916666666666,
+          "cumulative": 29038.874999999985
+        },
+        {
+          "month": 19,
+          "units": 21.666666666666668,
+          "revenue": 12978.333333333334,
+          "contribution": 3439.916666666666,
+          "cumulative": 32478.79166666665
+        },
+        {
+          "month": 20,
+          "units": 21.666666666666668,
+          "revenue": 12978.333333333334,
+          "contribution": 3439.916666666666,
+          "cumulative": 35918.708333333314
+        },
+        {
+          "month": 21,
+          "units": 21.666666666666668,
+          "revenue": 12978.333333333334,
+          "contribution": 3439.916666666666,
+          "cumulative": 39358.62499999998
+        },
+        {
+          "month": 22,
+          "units": 21.666666666666668,
+          "revenue": 12978.333333333334,
+          "contribution": 3439.916666666666,
+          "cumulative": 42798.54166666664
+        },
+        {
+          "month": 23,
+          "units": 21.666666666666668,
+          "revenue": 12978.333333333334,
+          "contribution": 3439.916666666666,
+          "cumulative": 46238.45833333331
+        },
+        {
+          "month": 24,
+          "units": 21.666666666666668,
+          "revenue": 12978.333333333334,
+          "contribution": 3439.916666666666,
+          "cumulative": 49678.37499999997
+        }
+      ],
+      "units": 422.5000000000001,
+      "revenue": 253077.5000000001,
+      "contribution": 49678.37499999997,
+      "unitContribution": 214.14999999999998,
+      "breakEvenUnits": 190.52066308662154,
+      "breakEvenAnnualUnits": 117.24348497638252,
+      "paybackMonth": 10,
+      "fixedCost": 40800,
+      "entryCost": 12000,
+      "status": "positive",
+      "scenario": {
+        "low": -17935.356249999993,
+        "base": 49678.37499999997,
+        "high": 127184.94375000005,
+        "profitable": 22,
+        "total": 27
+      },
+      "sensitivity": [
+        {
+          "name": "销量",
+          "low": 4439.187499999989,
+          "high": 94917.56249999999,
+          "spread": 90478.375
+        },
+        {
+          "name": "实际售价 / 折算",
+          "low": 28166.78750000001,
+          "high": 71189.96250000004,
+          "spread": 43023.17500000003
+        },
+        {
+          "name": "供给与交付成本",
+          "low": 26440.874999999996,
+          "high": 49678.37499999997,
+          "spread": 23237.499999999975
+        },
+        {
+          "name": "进入延迟 3 个月",
+          "low": 35758.624999999985,
+          "high": 49678.37499999997,
+          "spread": 13919.749999999985
+        }
+      ]
+    },
+    {
+      "marketCode": "USA",
+      "months": [
+        {
+          "month": 1,
+          "units": 0,
+          "revenue": 0,
+          "contribution": -1200,
+          "cumulative": -11200
+        },
+        {
+          "month": 2,
+          "units": 0,
+          "revenue": 0,
+          "contribution": -1200,
+          "cumulative": -12400
+        },
+        {
+          "month": 3,
+          "units": 6.25,
+          "revenue": 3743.75,
+          "contribution": 138.43749999999977,
+          "cumulative": -12261.5625
+        },
+        {
+          "month": 4,
+          "units": 12.5,
+          "revenue": 7487.5,
+          "contribution": 1476.8749999999995,
+          "cumulative": -10784.6875
+        },
+        {
+          "month": 5,
+          "units": 18.75,
+          "revenue": 11231.25,
+          "contribution": 2815.3124999999995,
+          "cumulative": -7969.375
+        },
+        {
+          "month": 6,
+          "units": 25,
+          "revenue": 14975,
+          "contribution": 4153.749999999999,
+          "cumulative": -3815.625000000001
+        },
+        {
+          "month": 7,
+          "units": 25,
+          "revenue": 14975,
+          "contribution": 4153.749999999999,
+          "cumulative": 338.1249999999982
+        },
+        {
+          "month": 8,
+          "units": 25,
+          "revenue": 14975,
+          "contribution": 4153.749999999999,
+          "cumulative": 4491.874999999997
+        },
+        {
+          "month": 9,
+          "units": 25,
+          "revenue": 14975,
+          "contribution": 4153.749999999999,
+          "cumulative": 8645.624999999996
+        },
+        {
+          "month": 10,
+          "units": 25,
+          "revenue": 14975,
+          "contribution": 4153.749999999999,
+          "cumulative": 12799.374999999996
+        },
+        {
+          "month": 11,
+          "units": 25,
+          "revenue": 14975,
+          "contribution": 4153.749999999999,
+          "cumulative": 16953.124999999996
+        },
+        {
+          "month": 12,
+          "units": 25,
+          "revenue": 14975,
+          "contribution": 4153.749999999999,
+          "cumulative": 21106.874999999996
+        },
+        {
+          "month": 13,
+          "units": 25,
+          "revenue": 14975,
+          "contribution": 4153.749999999999,
+          "cumulative": 25260.624999999996
+        },
+        {
+          "month": 14,
+          "units": 25,
+          "revenue": 14975,
+          "contribution": 4153.749999999999,
+          "cumulative": 29414.374999999996
+        },
+        {
+          "month": 15,
+          "units": 25,
+          "revenue": 14975,
+          "contribution": 4153.749999999999,
+          "cumulative": 33568.12499999999
+        },
+        {
+          "month": 16,
+          "units": 25,
+          "revenue": 14975,
+          "contribution": 4153.749999999999,
+          "cumulative": 37721.87499999999
+        },
+        {
+          "month": 17,
+          "units": 25,
+          "revenue": 14975,
+          "contribution": 4153.749999999999,
+          "cumulative": 41875.62499999999
+        },
+        {
+          "month": 18,
+          "units": 25,
+          "revenue": 14975,
+          "contribution": 4153.749999999999,
+          "cumulative": 46029.37499999999
+        },
+        {
+          "month": 19,
+          "units": 25,
+          "revenue": 14975,
+          "contribution": 4153.749999999999,
+          "cumulative": 50183.12499999999
+        },
+        {
+          "month": 20,
+          "units": 25,
+          "revenue": 14975,
+          "contribution": 4153.749999999999,
+          "cumulative": 54336.87499999999
+        },
+        {
+          "month": 21,
+          "units": 25,
+          "revenue": 14975,
+          "contribution": 4153.749999999999,
+          "cumulative": 58490.62499999999
+        },
+        {
+          "month": 22,
+          "units": 25,
+          "revenue": 14975,
+          "contribution": 4153.749999999999,
+          "cumulative": 62644.37499999999
+        },
+        {
+          "month": 23,
+          "units": 25,
+          "revenue": 14975,
+          "contribution": 4153.749999999999,
+          "cumulative": 66798.12499999999
+        },
+        {
+          "month": 24,
+          "units": 25,
+          "revenue": 14975,
+          "contribution": 4153.749999999999,
+          "cumulative": 70951.87499999999
+        }
+      ],
+      "units": 512.5,
+      "revenue": 306987.5,
+      "contribution": 70951.87499999999,
+      "unitContribution": 214.14999999999998,
+      "breakEvenUnits": 181.18141489610088,
+      "breakEvenAnnualUnits": 106.05741359771763,
+      "paybackMonth": 7,
+      "fixedCost": 38800,
+      "entryCost": 10000,
+      "status": "positive",
+      "scenario": {
+        "low": -11064.78125,
+        "base": 70951.87499999999,
+        "high": 164968.71875000003,
+        "profitable": 25,
+        "total": 27
+      },
+      "sensitivity": [
+        {
+          "name": "销量",
+          "low": 16075.937499999996,
+          "high": 125827.81249999999,
+          "spread": 109751.87499999999
+        },
+        {
+          "name": "实际售价 / 折算",
+          "low": 44857.93750000001,
+          "high": 97045.81250000001,
+          "spread": 52187.87500000001
+        },
+        {
+          "name": "供给与交付成本",
+          "low": 42764.37499999999,
+          "high": 70951.87499999999,
+          "spread": 28187.499999999993
+        },
+        {
+          "name": "进入延迟 3 个月",
+          "low": 54890.62499999999,
+          "high": 70951.87499999999,
+          "spread": 16061.249999999993
+        }
+      ]
+    }
+  ],
+  "portfolio": {
+    "markets": [
+      "DEU",
+      "USA"
+    ],
+    "entryCost": 22000,
+    "contribution": 120630.24999999996,
+    "worstCase": -29000.137499999993
+  }
+}
