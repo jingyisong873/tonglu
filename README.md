@@ -2,7 +2,7 @@
 
 [![Verify](https://github.com/jingyisong873/tonglu/actions/workflows/ci.yml/badge.svg)](https://github.com/jingyisong873/tonglu/actions/workflows/ci.yml)
 
-比较市场、渠道和交易方案的本地研究工作台。将来源证据、业务假设和计算结果放在同一个项目里，查看哪些条件会改变选择。
+通路研究市场、国家与企业之间的关系，目标是支持跨层级的证据研究、方案比较与持续更新。当前开源版提供本地市场与交易研究工作台：将来源证据、业务假设和计算结果放在同一个项目里，查看哪些条件会改变选择。完整定位与能力边界见[产品定义](docs/product-definition.md)。
 
 [English](README.en.md) · [运行示例](docs/demo.md) · [计算方法](docs/market-methodology.md) · [架构](docs/architecture.md) · [安全](SECURITY.md)
 
@@ -55,7 +55,7 @@ npm start
 
 将 `.env.example` 复制为 `.env`，填写自己的 `DEEPSEEK_API_KEY` 和账户支持的 `DEEPSEEK_MODEL`，重启服务。启用联网选项后，还会使用 DeepSeek Search / Fetch 与 World Bank 数据。接口配置与数据流见[配置说明](docs/configuration.md)。
 
-密钥由本地服务读取。实时研究会把项目输入、所用资料和反馈发送给模型服务；只提交你有权处理的内容。浏览器断开会停止当前请求，阶段检查点仍会保存。
+密钥由本地服务读取。实时研究会把项目输入、所用资料和反馈发送给模型服务；只提交你有权处理的内容。研究由本地服务运行，关闭或刷新页面后仍会继续；重新打开项目即可接续查看进度。点击“停止研究”会暂停任务并保存已完成阶段。每次执行最多九分钟；关闭本地服务也会停止研究，重启后可手动继续。
 
 ## 开发与验证
 

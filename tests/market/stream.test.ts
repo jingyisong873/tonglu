@@ -34,6 +34,7 @@ test("a truncated research stream cannot be reported as completed", async () => 
 test("research streams reject explicit errors and incomplete results", async () => {
   await assert.rejects(read('{"type":"error","message":"服务暂不可用"}\n'), /服务暂不可用/);
   await assert.rejects(read('{"type":"result","run":{"status":"failed"}}\n'), /格式无效/);
+  await assert.rejects(read('{"type":"started","project":{"id":"p"}}\n'), /格式无效/);
 });
 
 test("oversized research messages release the stream reader on failure", async () => {

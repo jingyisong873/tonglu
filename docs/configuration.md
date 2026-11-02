@@ -29,7 +29,9 @@ Provider contracts: [Search](https://api-docs.deepseek.com/api/search/), [Fetch]
 
 ## Recovery and backup
 
-Research runs through the browser's streamed HTTP connection. Closing it cancels the active request; it is not a background queue. Reopen a failed or interrupted run to resume saved stages. If the input or feedback changed, start a new run so the recorded evidence and assumptions stay consistent.
+Research runs independently of the browser connection while the local service remains running. Reopening an active project attaches to the same task without creating another run or repeating model requests. Use the stop control to pause research; closing the tab alone does not stop provider usage. The existing nine-minute execution limit still applies.
+
+There is one active task per project, owned by one server process per workspace. A normal shutdown stops tasks and saves their state. On startup, interrupted tasks are marked paused; continuing a saved run is an explicit user action, so restarting the service does not silently initiate paid requests. This is not an automatic scheduler or a multi-process job queue. If input or feedback changed, start a new run so the recorded evidence and assumptions stay consistent.
 
 Stop the application, then copy the complete `.tonglu` directory. SQLite uses WAL mode, so copying only `workspace.sqlite` while the service is running is not a reliable backup.
 

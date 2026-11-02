@@ -240,6 +240,7 @@ export async function runHarness(
   delete state.error;
   if (!state.actionsSnapshot) state.actionsSnapshot = structuredClone(actions);
   const step = async (stage: string, message: string, detail?: string) => {
+    config.signal?.throwIfAborted();
     state.stage = stage;
     const event = {
       stage,
@@ -252,11 +253,13 @@ export async function runHarness(
     await checkpoint(state);
   };
   const call = async (prompt: string, data: unknown, thinking = false) => {
+    config.signal?.throwIfAborted();
     const r = await modelJSON(config, prompt, data, thinking);
     state.usage.calls++;
     state.usage.inputTokens += r.usage.inputTokens;
     state.usage.outputTokens += r.usage.outputTokens;
     state.usage.model = r.usage.model;
+    config.signal?.throwIfAborted();
     return r.data;
   };
   try {
@@ -643,6 +646,7 @@ export async function runHarness(
       };
       await checkpoint(state);
     }
+    config.signal?.throwIfAborted();
     state.status = "completed";
     await step("complete", "研究、计算、知识与版本已保存");
     return state;

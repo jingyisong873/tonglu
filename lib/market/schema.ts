@@ -209,7 +209,7 @@ export type RunState = {
   id: string;
   projectId: string;
   input: StudyInput;
-  status: "running" | "completed" | "failed";
+  status: "running" | "completed" | "failed" | "paused";
   stage: string;
   createdAt: string;
   updatedAt: string;

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   ArrowUpRight,
   ArrowRight,
@@ -22,6 +22,7 @@ import {
   Target,
   Save,
   PanelLeftClose,
+  Square,
 } from "lucide-react";
 import type {
   StudyInput,
@@ -214,6 +215,12 @@ export default function MarketWorkspace() {
     [factCountry, setFactCountry] = useState(""),
     [macro, setMacro] = useState("NY.GDP.PCAP.CD"),
     [historyText, setHistoryText] = useState("");
+  const [activeRunId, setActiveRunId] = useState<string | null>(null),
+    [connectionLost, setConnectionLost] = useState(false),
+    [stopping, setStopping] = useState(false);
+  const observation = useRef<AbortController | null>(null),
+    projectRequest = useRef<AbortController | null>(null),
+    stopRequest = useRef<AbortController | null>(null);
   const single = input.decisionMode === "single-deal",
     currency = input.currency ?? "USD";
   const money = (n: number, compact = false) =>
@@ -245,11 +252,27 @@ export default function MarketWorkspace() {
     setProject(p);
     setProjects((a) => [p, ...a.filter((x) => x.id !== p.id)]);
   };
+  function detachResearch() {
+    observation.current?.abort();
+    observation.current = null;
+    stopRequest.current?.abort();
+    projectRequest.current?.abort();
+    setBusy(false);
+    setLoading(false);
+    setActiveRunId(null);
+    setStopping(false);
+    setConnectionLost(false);
+  }
   async function openProject(id: string) {
+    detachResearch();
+    const request = new AbortController();
+    projectRequest.current = request;
     setLoading(true);
     setError("");
+    setNotice("");
     try {
-      const b = await api(`/api/market/projects/${id}`);
+      const b = await api(`/api/market/projects/${id}`, { signal: request.signal });
+      if (request.signal.aborted) return;
       setProject(b.project);
       setInput(b.project.input);
       setActions(b.project.actions);
@@ -259,20 +282,29 @@ export default function MarketWorkspace() {
       setEdit(false);
       setProgress([]);
       setSide(false);
+      if (b.run?.status === "running") connectResearch(b.project, b.run.id);
     } catch (e) {
-      setError((e as Error).message);
+      if (!request.signal.aborted) setError((e as Error).message);
     } finally {
-      setLoading(false);
+      if (!request.signal.aborted) setLoading(false);
     }
   }
   useEffect(() => {
-    api("/api/market/projects")
+    const request = new AbortController();
+    api("/api/market/projects", { signal: request.signal })
       .then((b) => {
+        if (request.signal.aborted) return;
         setProjects(b.projects);
         if (b.projects.length) return openProject(b.projects[0].id);
       })
-      .catch((e) => setError(e.message))
-      .finally(() => setLoading(false));
+      .catch((e) => { if (!request.signal.aborted) setError(e.message); })
+      .finally(() => { if (!request.signal.aborted) setLoading(false); });
+    return () => {
+      request.abort();
+      projectRequest.current?.abort();
+      observation.current?.abort();
+      stopRequest.current?.abort();
+    };
   }, []);
   useEffect(() => {
     if (!project || !run) {
@@ -306,6 +338,7 @@ export default function MarketWorkspace() {
     setHistoryText(current.salesHistory.join(", "));
   }, [current.marketCode, project?.id]);
   function reset(kind: StudyInput["kind"]) {
+    detachResearch();
     setProject(null);
     setInput(sampleInput(kind));
     setRun(null);
@@ -347,20 +380,22 @@ export default function MarketWorkspace() {
       ),
     }));
   }
-  async function persist() {
+  async function persist(signal?: AbortSignal) {
     setError("");
     const p = project
       ? await api(`/api/market/projects/${project.id}`, {
           method: "PATCH",
+          signal,
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ revision: project.revision, input, actions }),
         })
       : await api("/api/market/projects", {
           method: "POST",
+          signal,
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(input),
         });
-    recordProject(p.project);
+    if (!signal?.aborted) recordProject(p.project);
     return p.project as StudyProject;
   }
   async function save() {
@@ -371,30 +406,53 @@ export default function MarketWorkspace() {
       setError((e as Error).message);
     }
   }
-  async function research(resume = false) {
-    if (busy) return;
+  function beginObservation() {
+    observation.current?.abort();
+    stopRequest.current?.abort();
+    const controller = new AbortController();
+    observation.current = controller;
     setBusy(true);
+    setStopping(false);
+    setConnectionLost(false);
     setError("");
     setNotice("");
     setProgress([]);
     setPhase(0);
     setEdit(false);
-    let activeProject = project;
+    return controller;
+  }
+  function updateResearch(b: APIResult) {
+    recordProject(b.project);
+    setRun(b.run);
+    setHistory(b.history);
+    setActiveRunId(b.run?.status === "running" ? b.run.id : null);
+  }
+  async function observeResearch(
+    p: StudyProject,
+    path: string,
+    init: RequestInit,
+    controller: AbortController,
+    runId?: string,
+  ) {
+    const current = () => observation.current === controller && !controller.signal.aborted;
+    let observedRunId = runId;
+    let requestRejected = false;
     try {
-      const p = dirty || !project ? await persist() : project;
-      activeProject = p;
-      const response = await fetch(`/api/market/projects/${p.id}/run`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(resume ? { resume: run?.id } : {}),
-      });
+      const response = await fetch(path, { ...init, signal: controller.signal });
+      if (!current()) return;
       if (!response.ok) {
+        requestRejected = true;
         const body = (await response.json()) as { message: string };
         throw new Error(body.message);
       }
-      if (!response.body) throw new Error("研究响应为空，请重新打开项目");
+      if (!response.body) throw new Error("研究响应为空，请重新连接");
       for await (const event of readResearchEvents(response.body)) {
-        if (event.type === "started") recordProject(event.project);
+        if (!current()) return;
+        if (event.type === "started") {
+          observedRunId = event.runId;
+          recordProject(event.project);
+          setActiveRunId(event.runId);
+        }
         if (event.type === "progress") {
           setProgress((a) => [...a, event.message]);
           setPhase(
@@ -418,27 +476,119 @@ export default function MarketWorkspace() {
         }
         if (event.type === "result") setRun(event.run);
       }
-      const b = await api(`/api/market/projects/${p.id}`);
-      recordProject(b.project);
-      setRun(b.run);
-      setHistory(b.history);
-      setTab("decision");
-      setNotice("研究已保存。可查看原文、调整假设，或把建议加入行动记录。");
+      const b = await api(`/api/market/projects/${p.id}`, { signal: controller.signal });
+      if (!current()) return;
+      updateResearch(b);
+      if (b.run?.status === "completed") {
+        setTab("decision");
+        setNotice("研究已保存。可查看原文、调整假设，或把建议加入行动记录。");
+      } else if (b.run?.status === "running") {
+        setConnectionLost(true);
+        setNotice("项目已有另一轮研究正在运行，可连接查看进度。");
+      }
     } catch (e) {
-      setError((e as Error).message);
-      if (activeProject) {
-        try {
-          const b = await api(`/api/market/projects/${activeProject.id}`);
-          recordProject(b.project);
-          setRun(b.run);
-          setHistory(b.history);
-        } catch {}
+      if (!current()) return;
+      try {
+        const b = await api(`/api/market/projects/${p.id}`, { signal: controller.signal });
+        if (!current()) return;
+        updateResearch(b);
+        if (b.run?.status === "running") {
+          setConnectionLost(true);
+          setNotice("进度连接已断开，研究仍在后台运行。可重新连接查看。");
+        } else if (b.run?.status === "completed" && !requestRejected &&
+          b.run.id === observedRunId) {
+          setNotice("研究已完成，结果已保存。");
+        } else if (requestRejected || b.run?.status !== "paused") {
+          setError(requestRejected ? (e as Error).message : b.run?.error || (e as Error).message);
+        }
+      } catch {
+        if (!current()) return;
+        setConnectionLost(true);
+        setError("暂时无法读取研究状态。恢复连接后请重新连接查看。");
       }
     } finally {
+      if (current()) {
+        observation.current = null;
+        setBusy(false);
+        setStopping(false);
+      }
+    }
+  }
+  function connectResearch(p: StudyProject, runId: string) {
+    const controller = beginObservation();
+    setActiveRunId(runId);
+    void observeResearch(p, `/api/market/runs/${runId}/events`, {}, controller, runId);
+  }
+  async function reconnectResearch() {
+    if (!project || busy) return;
+    const controller = beginObservation();
+    try {
+      const b = await api(`/api/market/projects/${project.id}`, { signal: controller.signal });
+      if (controller.signal.aborted) return;
+      updateResearch(b);
+      if (b.run?.status === "running") {
+        await observeResearch(b.project, `/api/market/runs/${b.run.id}/events`, {}, controller, b.run.id);
+      } else {
+        if (b.run?.status === "completed") setNotice("研究已完成，结果已保存。");
+        observation.current = null;
+        setBusy(false);
+      }
+    } catch (e) {
+      if (controller.signal.aborted) return;
+      observation.current = null;
       setBusy(false);
+      setConnectionLost(true);
+      setError((e as Error).message);
+    }
+  }
+  async function research(resume = false) {
+    if (busy || connectionLost || run?.status === "running") return;
+    const controller = beginObservation();
+    setActiveRunId(null);
+    try {
+      const p = dirty || !project ? await persist(controller.signal) : project;
+      if (controller.signal.aborted) return;
+      await observeResearch(p, `/api/market/projects/${p.id}/run`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(resume ? { resume: run?.id } : {}),
+      }, controller);
+    } catch (e) {
+      if (controller.signal.aborted) return;
+      observation.current = null;
+      setBusy(false);
+      setError((e as Error).message);
+    }
+  }
+  async function stopResearch() {
+    if (!activeRunId || stopping) return;
+    const request = new AbortController();
+    stopRequest.current?.abort();
+    stopRequest.current = request;
+    setStopping(true);
+    try {
+      const b = await api(`/api/market/runs/${activeRunId}/cancel`, {
+        method: "POST",
+        signal: request.signal,
+      });
+      if (request.signal.aborted) return;
+      if (b.run && b.run.status !== "running") {
+        setRun(b.run);
+        setActiveRunId(null);
+        setStopping(false);
+        setConnectionLost(false);
+        setNotice(b.run.status === "completed" ? "研究已完成，结果已保存。" : "");
+      } else if (!observation.current) {
+        void reconnectResearch();
+      }
+    } catch (e) {
+      if (request.signal.aborted) return;
+      setStopping(false);
+      setError((e as Error).message);
     }
   }
   function example(type: "regional" | "personal") {
+    detachResearch();
     const next = routeExample(type);
     setProject(null);
     setInput(next);
@@ -453,6 +603,7 @@ export default function MarketWorkspace() {
     setSide(false);
   }
   function reverse(code: string) {
+    detachResearch();
     const t = input.targets.find((c) => c.code === code)!;
     const reverseCode = `RETURN_${crypto.randomUUID().slice(0, 8).toUpperCase()}`;
     const target = {
@@ -514,7 +665,7 @@ export default function MarketWorkspace() {
         updatedAt: new Date().toISOString(),
       },
     ]);
-    setNotice("已加入行动记录，保存项目后可跨设备继续");
+    setNotice("已加入行动记录，保存项目后可在本机重新打开");
   }
   function editAction(id: string, key: "status" | "outcome", value: string) {
     setActions((a) =>
@@ -672,7 +823,7 @@ export default function MarketWorkspace() {
               </button>
               <button
                 className="me-btn primary"
-                disabled={busy || loading}
+                disabled={busy || loading || connectionLost || run?.status === "running"}
                 onClick={() => research(false)}
               >
                 {busy ? (
@@ -682,6 +833,11 @@ export default function MarketWorkspace() {
                 )}{" "}
                 {busy ? "研究进行中" : run ? "更新研究" : "开始研究"}
               </button>
+              {activeRunId && (
+                <button className="me-btn" disabled={stopping} onClick={stopResearch}>
+                  <Square size={14} /> {stopping ? "正在停止" : "停止研究"}
+                </button>
+              )}
             </div>
           </div>
           {error && (
@@ -755,7 +911,7 @@ export default function MarketWorkspace() {
               <div>
                 <LoaderCircle className="me-spin" size={18} />
                 <strong>{progress.at(-1) || "正在建立研究版本"}</strong>
-                <span>页面保持打开 · 已完成阶段会保存</span>
+                <span>本地服务运行期间，关闭页面后研究仍会继续</span>
               </div>
               <div className="me-progress-steps">
                 {[
@@ -772,9 +928,17 @@ export default function MarketWorkspace() {
               </div>
             </div>
           )}
-          {run?.status === "failed" && !busy && (
-            <div className="me-message error">
-              <span>上次研究尚未完成：{run.error}</span>
+          {connectionLost && !busy && (
+            <div className="me-message">
+              <span>重新连接当前研究，不会启动新的任务。</span>
+              <button className="me-btn" onClick={reconnectResearch}>
+                <RefreshCw size={14} /> 重新连接
+              </button>
+            </div>
+          )}
+          {(run?.status === "failed" || run?.status === "paused") && !busy && !connectionLost && (
+            <div className={run.status === "paused" ? "me-message" : "me-message error"}>
+              <span>{run.status === "paused" ? "研究已暂停" : "上次研究尚未完成"}：{run.error || "已完成阶段已保存"}</span>
               <button
                 className="me-btn"
                 disabled={stale}

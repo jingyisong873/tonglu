@@ -19,7 +19,8 @@ export async function* readResearchEvents(body: ReadableStream<Uint8Array>) {
     if (
       !event ||
       !["started", "progress", "result", "heartbeat"].includes(event.type) ||
-      (event.type === "started" && typeof event.project?.id !== "string") ||
+      (event.type === "started" &&
+        (typeof event.project?.id !== "string" || typeof event.runId !== "string")) ||
       (event.type === "progress" &&
         (typeof event.stage !== "string" || typeof event.message !== "string")) ||
       (event.type === "result" && event.run?.status !== "completed")
@@ -39,7 +40,7 @@ export async function* readResearchEvents(body: ReadableStream<Uint8Array>) {
     }
     if (buffer.trim()) yield parse(buffer);
     if (!completed)
-      throw new Error("研究连接已中断，已保存的阶段可在重新打开项目后恢复");
+      throw new Error("研究连接已中断，请重新连接查看后台任务状态");
   } finally {
     await reader.cancel().catch(() => {});
     reader.releaseLock();
