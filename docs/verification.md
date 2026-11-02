@@ -19,3 +19,12 @@ The runtime tests use synthetic fixtures and temporary databases. No paid-model 
 [GitHub Actions run 40348273993](https://github.com/jingyisong873/tonglu/actions/runs/40348273993) verified commit `6152d0c8474b95875bb6be09c34da4c9f8f964c6` on Linux and Windows. Both jobs passed dependency installation, tests, type checking, production builds, example generation and the dependency advisory check. The release job then published [v0.1.0](https://github.com/jingyisong873/tonglu/releases/tag/v0.1.0), with ZIP and tar.gz source archives and SHA-256 checksums.
 
 The repository's workflow badge reports the current branch status. This record refers to the versioned release above.
+
+## Background research update — 2 November 2026
+
+- 51 automated tests passed locally, including disconnect/reconnect, explicit cancellation, late provider responses, startup recovery and shutdown persistence.
+- Type checking and the production build passed. The dependency advisory check reported zero known vulnerabilities at verification time.
+- Chromium interaction checks passed for page reload, close/reopen, same-run pause/resume, stream reconnection and failed new-run messaging. No browser JavaScript errors were observed, and a 390-pixel viewport had no horizontal document overflow.
+- A development-process SIGTERM check confirmed that Vite waits for research state to be saved before exiting.
+
+The new checks use synthetic fixtures and temporary databases. Live-model research quality and multi-user deployment remain outside this verification.

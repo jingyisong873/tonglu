@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.0
+
+- Research continues after the browser disconnects; reopening a project reconnects to the same task.
+- Explicit stopping pauses a run; service restarts retain saved stages for manual resume without automatic model calls.
+- Separate task execution from HTTP observers, preserve per-project exclusion and commit completed results with searchable facts.
+- Record the broader market, country and company research scope separately from current capabilities.
+
 ## 0.1.0
 
 Initial standalone source distribution.

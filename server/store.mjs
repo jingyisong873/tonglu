@@ -111,6 +111,17 @@ export class Store {
     const r = this.db.prepare("SELECT payload FROM runs WHERE id=?").get(id);
     return r ? JSON.parse(r.payload) : null;
   }
+  pauseInterruptedRuns() {
+    this.transaction(() => {
+      for (const row of this.db.prepare("SELECT payload FROM runs").all()) {
+        const run = JSON.parse(row.payload);
+        if (run.status !== "running") continue;
+        run.status = "paused";
+        run.error = "上次服务已中断，已完成阶段已保存，可继续研究";
+        this.saveRun(run);
+      }
+    });
+  }
   runHistory(id) {
     return this.db
       .prepare("SELECT payload FROM runs WHERE project_id=?")
@@ -126,11 +137,12 @@ export class Store {
         summary: r.synthesis?.summary,
       }));
   }
-  saveFacts(run) {
-    const insert = this.db.prepare(
-      "INSERT OR REPLACE INTO facts VALUES (?,?,?,?)",
-    );
+  completeRun(run) {
     this.transaction(() => {
+      this.saveRun(run);
+      const insert = this.db.prepare(
+        "INSERT OR REPLACE INTO facts VALUES (?,?,?,?)",
+      );
       for (const f of run.facts ?? [])
         insert.run(
           `${run.id}:${f.id}`,

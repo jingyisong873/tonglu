@@ -6,7 +6,7 @@ import { z } from "zod";
 import { Store } from "./store.mjs";
 import { replayConfig } from "./replay.mjs";
 import { inputSchema } from "../lib/market/schema.ts";
-import { newRun, runHarness } from "../lib/market/harness.ts";
+import { Research } from "./research.mjs";
 import { providerConfig } from "../lib/deepseek.ts";
 
 const actionSchema = z.object({
@@ -55,6 +55,35 @@ async function body(req) {
   }
 }
 
+function observe(res, research, runId) {
+  res.writeHead(200, {
+    ...securityHeaders,
+    "Content-Type": "application/x-ndjson; charset=utf-8",
+    "Cache-Control": "no-store",
+  });
+  let detach = () => {};
+  let ended = false;
+  const cleanup = () => {
+    ended = true;
+    clearInterval(heartbeat);
+    detach();
+  };
+  const send = event => {
+    if (ended || res.destroyed) return;
+    // A slow or disconnected observer must not retain unbounded output.
+    if (res.writableLength > 4_000_000) return res.destroy();
+    res.write(JSON.stringify(event) + "\n");
+    if (event.type === "result" || event.type === "error") {
+      cleanup();
+      res.end();
+    }
+  };
+  const heartbeat = setInterval(() => send({ type: "heartbeat" }), 12000);
+  res.once("close", cleanup);
+  detach = research.subscribe(runId, send);
+  if (ended) detach();
+}
+
 export function createApp({
   store = new Store(),
   live = Boolean(process.env.DEEPSEEK_API_KEY),
@@ -63,8 +92,8 @@ export function createApp({
   configForRun = live ? providerConfig : replayConfig,
 } = {}) {
   staticDir = resolve(staticDir);
-  const activeProjects = new Set();
-  return createServer(async (req, res) => {
+  const research = new Research({ store, live, configForRun });
+  const server = createServer(async (req, res) => {
     try {
       // Loopback binding + Host and Origin checks protect this local workspace.
       const host = req.headers.host || "";
@@ -100,7 +129,7 @@ export function createApp({
       );
       if (match) {
         const [, id, action] = match;
-        let p = store.getProject(id);
+        const p = store.getProject(id);
         if (!p) throw fail("项目不存在", 404);
         if (!action && req.method === "GET")
           return reply(res, 200, {
@@ -125,97 +154,28 @@ export function createApp({
           });
         if (action === "run" && req.method === "POST") {
           const b = runSchema.parse(await body(req));
-          // The project may change while a request body is still arriving.
-          p = store.getProject(id);
-          if (activeProjects.has(id))
-            throw fail("项目已有研究正在运行", 409);
-          let run;
-          if (b.resume) {
-            run = store.getRun(b.resume);
-            if (
-              !run ||
-              run.projectId !== id ||
-              run.id !== p.latestRunId ||
-              run.status === "completed"
-            )
-              throw fail("无法恢复这次研究");
-            if (
-              JSON.stringify(run.input) !== JSON.stringify(p.input) ||
-              JSON.stringify(run.actionsSnapshot ?? []) !==
-                JSON.stringify(p.actions)
-            )
-              throw fail("输入或反馈已变化，请开始新的研究", 409);
-          } else {
-            run = newRun(
-              id,
-              p.input,
-              live
-                ? process.env.DEEPSEEK_MODEL || "deepseek-flash"
-                : "fixture-replay",
-              p.actions,
-            );
-            p = store.startRun(p, run);
-          }
-          const abort = new AbortController();
-          res.on("close", () => {
-            if (!res.writableEnded) abort.abort();
-          });
-          const config = configForRun(run);
-          config.signal = AbortSignal.any([
-            abort.signal,
-            AbortSignal.timeout(540000),
-          ]);
-          res.writeHead(200, {
-            ...securityHeaders,
-            "Content-Type": "application/x-ndjson; charset=utf-8",
-            "Cache-Control": "no-store",
-          });
-          activeProjects.add(id);
-          const send = (event) => {
-            if (!res.destroyed) res.write(JSON.stringify(event) + "\n");
-          };
-          const heartbeat = setInterval(
-            () => send({ type: "heartbeat" }),
-            12000,
-          );
-          send({ type: "started", project: p, runId: run.id });
-          try {
-            await runHarness(
-              run,
-              config,
-              async (s) => store.saveRun(s),
-              send,
-              p.actions,
-            );
-            if (!live)
-              run.usage = {
-                model: "fixture-replay",
-                calls: 0,
-                inputTokens: 0,
-                outputTokens: 0,
-                searchCalls: 0,
-                fetchCalls: 0,
-              };
-            store.saveRun(run);
-            store.saveFacts(run);
-            send({ type: "result", run });
-          } catch (e) {
-            send({ type: "error", runId: run.id, message: e.message });
-          } finally {
-            activeProjects.delete(id);
-            clearInterval(heartbeat);
-            res.end();
-          }
+          // Read the project after the body arrives; execution owns its snapshot.
+          const task = research.start(id, b.resume);
+          observe(res, research, task.run.id);
           return;
         }
       }
       const runMatch = url.pathname.match(
-        /^\/api\/market\/runs\/([a-zA-Z0-9-]+)$/,
+        /^\/api\/market\/runs\/([a-zA-Z0-9-]+)(?:\/(events|cancel))?$/,
       );
-      if (runMatch && req.method === "GET") {
-        const run = store.getRun(runMatch[1]);
+      if (runMatch) {
+        const [, id, action] = runMatch;
+        const run = store.getRun(id);
         if (!run) throw fail("研究不存在", 404);
-        return reply(res, 200, { run });
+        if (!action && req.method === "GET") return reply(res, 200, { run });
+        if (action === "events" && req.method === "GET") {
+          observe(res, research, id);
+          return;
+        }
+        if (action === "cancel" && req.method === "POST") {
+          const result = research.cancel(id);
+          return reply(res, result.stopping ? 202 : 200, result);
+        }
       }
       if (url.pathname.startsWith("/api/")) throw fail("接口不存在", 404);
       if (req.method !== "GET" && req.method !== "HEAD")
@@ -269,6 +229,16 @@ export function createApp({
       });
     }
   });
+  server.research = research;
+  let stopping;
+  server.shutdown = () => stopping ??= (async () => {
+    const closed = new Promise(resolve => server.close(resolve));
+    await research.shutdown();
+    server.closeAllConnections();
+    await closed;
+    store.close();
+  })();
+  return server;
 }
 
 if (
@@ -276,9 +246,15 @@ if (
   import.meta.url === pathToFileURL(resolve(process.argv[1])).href
 ) {
   const port = Number(process.env.PORT || 8787);
-  createApp().listen(port, "127.0.0.1", () =>
+  const server = createApp();
+  server.listen(port, "127.0.0.1", () =>
     console.log(
       `Tonglu: http://127.0.0.1:${port} (${process.env.DEEPSEEK_API_KEY ? "live model" : "fixture replay; no model calls"})`,
     ),
   );
+  for (const signal of ["SIGINT", "SIGTERM"])
+    process.once(signal, () => server.shutdown().catch(error => {
+      console.error("Could not shut down cleanly:", error);
+      process.exitCode = 1;
+    }));
 }

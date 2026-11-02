@@ -6,7 +6,14 @@ await new Promise((resolve, reject) => {
   api.once("error", reject);
   api.listen(8787, "127.0.0.1", resolve);
 });
-const ui = await createServer();
+const ui = await createServer({
+  plugins: [{
+    name: "tonglu-research-lifecycle",
+    closeServer({ reason }) {
+      if (reason !== "restart") return api.shutdown();
+    },
+  }],
+});
 await ui.listen();
 ui.printUrls();
 console.log(
@@ -14,8 +21,7 @@ console.log(
     ? "Live mode: your configured model is enabled."
     : "Fixture replay: no API key, no LLM calls; all customer evidence is synthetic.",
 );
-for (const signal of ["SIGINT", "SIGTERM"])
-  process.on(signal, async () => {
-    await ui.close();
-    api.close(() => process.exit(0));
-  });
+process.once("SIGINT", () => ui.close().catch(error => {
+  console.error("Could not shut down cleanly:", error);
+  process.exitCode = 1;
+}));
